@@ -134,7 +134,7 @@ static int flush(AVFormatContext *s, int trailer, int64_t pts)
                 avio_wl24(s->pb, pts - w->last_pkt->pts);
             } else
                 avio_wl24(s->pb, w->last_pkt->duration);
-            avio_w8(s->pb, 0);
+            avio_w8(s->pb, 0x1);
         }
         avio_write(s->pb, w->last_pkt->data + skip, w->last_pkt->size - skip);
         av_packet_unref(w->last_pkt);

@@ -31,6 +31,7 @@ typedef struct WebpContext{
     int loop;
     int wrote_webp_header;
     int using_webp_anim_encoder;
+    uint8_t bg_color[4];
 } WebpContext;
 
 static int webp_init(AVFormatContext *s)
@@ -118,7 +119,10 @@ static int flush(AVFormatContext *s, int trailer, int64_t pts)
             if (!trailer) {
                 avio_write(s->pb, "ANIM", 4);
                 avio_wl32(s->pb, 6);
-                avio_wl32(s->pb, 0xFFFFFFFF);
+                avio_w8(s->pb, w->bg_color[0]);
+                avio_w8(s->pb, w->bg_color[1]);
+                avio_w8(s->pb, w->bg_color[2]);
+                avio_w8(s->pb, w->bg_color[3]);
                 avio_wl16(s->pb, w->loop);
             }
         }
@@ -134,7 +138,7 @@ static int flush(AVFormatContext *s, int trailer, int64_t pts)
                 avio_wl24(s->pb, pts - w->last_pkt->pts);
             } else
                 avio_wl24(s->pb, w->last_pkt->duration);
-            avio_w8(s->pb, 0x1);
+            avio_w8(s->pb, w->bg_color[3] < 0xff ? 1 : 0);
         }
         avio_write(s->pb, w->last_pkt->data + skip, w->last_pkt->size - skip);
         av_packet_unref(w->last_pkt);
@@ -198,7 +202,8 @@ static int webp_write_trailer(AVFormatContext *s)
 #define ENC AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
     { "loop", "Number of times to loop the output: 0 - infinite loop", OFFSET(loop),
-      AV_OPT_TYPE_INT, { .i64 = 1 }, 0, 65535, ENC },
+      AV_OPT_TYPE_INT, { .i64 = 1 }, 0, 65535, ENC },    
+    { "bg_color", "The background color, default #ffffffff", OFFSET(bg_color), AV_OPT_TYPE_COLOR, {.str="#ffffffff"}, 0, 0xffffffff, ENC },
     { NULL },
 };
 

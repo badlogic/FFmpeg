@@ -48,6 +48,7 @@ typedef struct LibWebPContextCommon {
     AVFrame *ref;
     int cr_size;
     int cr_threshold;
+	WebPConfig user_config; // libwebp configuration provided by user as CLI args
 } LibWebPContextCommon;
 
 int ff_libwebp_error_to_averror(int err);

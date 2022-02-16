@@ -48,6 +48,34 @@ static const AVOption options[] = {
     { "cr_threshold","Conditional replenishment threshold",     OFFSET(cr_threshold), AV_OPT_TYPE_INT, { .i64 =  0  },  0, INT_MAX, VE           },
     { "cr_size"     ,"Conditional replenishment block size",    OFFSET(cr_size)     , AV_OPT_TYPE_INT, { .i64 =  16 },  0, 256,     VE           },
     { "quality"     ,"Quality",                OFFSET(quality),  AV_OPT_TYPE_FLOAT, { .dbl =  75 }, 0, 100,                         VE           },
+
+	{ "webp_lossless"     ,"Lossless encoding (0=lossy(default), 1=lossless)",                OFFSET(user_config.lossless),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, 1,                         VE           },
+	{ "webp_quality"     ,"Quality between 0 and 100", OFFSET(user_config.quality),  AV_OPT_TYPE_FLOAT, { .dbl =  75 }, 0, 100,                         VE           },
+	{ "webp_method"     ,"quality/speed trade-off (0=fast, 6=slower-better)",                OFFSET(user_config.method),  AV_OPT_TYPE_INT, { .i64 =  4 }, 0, 6,                         VE           },
+	{ "webp_target_size"     ,"If non-zero, set the desired target size in bytes.",                OFFSET(user_config.target_size),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, INT_MAX,                         VE           },
+	{ "webp_target_PSNR"     ,"if non-zero, specifies the minimal distortion to try to achieve.", OFFSET(user_config.target_PSNR),  AV_OPT_TYPE_FLOAT, { .dbl =  0 }, 0, INT_MAX,                         VE           },
+	{ "webp_segments"     ,"maximum number of segments to use, in [1..4].",                OFFSET(user_config.segments),  AV_OPT_TYPE_INT, { .i64 =  4 }, 0, 4,                         VE           },
+	{ "webp_sns_strength"     ,"Spatial Noise Shaping. 0=off, 100=maximum.",                OFFSET(user_config.sns_strength),  AV_OPT_TYPE_INT, { .i64 =  50 }, 0, 100,                         VE           },
+	{ "webp_filter_strength"     ,"range: [0 = off .. 100 = strongest]",                OFFSET(user_config.filter_strength),  AV_OPT_TYPE_INT, { .i64 =  60 }, 1, 100,                         VE           },
+	{ "webp_filter_sharpness"     ,"range: [0 = off .. 7 = least sharp].",                OFFSET(user_config.filter_sharpness),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, 7,                         VE           },
+	{ "webp_filter_type"     ,"filtering type: 0 = simple, 1 = strong (only used if filter_strength > 0 or autofilter > 0)",                OFFSET(user_config.filter_type),  AV_OPT_TYPE_INT, { .i64 =  1 }, 0, 1,                         VE           },
+	{ "webp_autofilter"     ,"Auto adjust filter's strength [0 = off, 1 = on]",                OFFSET(user_config.autofilter),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, 1,                         VE           },
+	{ "webp_alpha_compression"     ,"Algorithm for encoding the alpha plane (0 = none, 1 = compressed with WebP lossless). Default is 1.",                OFFSET(user_config.alpha_compression),  AV_OPT_TYPE_INT, { .i64 =  1 }, 0, 1,                         VE           },
+	{ "webp_alpha_filtering"     ,"Predictive filtering method for alpha plane. 0: none, 1: fast, 2: best. Default if 1.",                OFFSET(user_config.alpha_filtering),  AV_OPT_TYPE_INT, { .i64 =  1 }, 0, 2,                         VE           },
+	{ "webp_alpha_quality"     ,"Between 0 (smallest size) and 100 (lossless). Default is 100.",                OFFSET(user_config.alpha_quality),  AV_OPT_TYPE_INT, { .i64 =  100 }, 0, 100,                         VE           },
+	{ "webp_pass"     ,"number of entropy-analysis passes (in [1..10]).",                OFFSET(user_config.pass),  AV_OPT_TYPE_INT, { .i64 =  1 }, 1, 10,                         VE           },
+	{ "webp_show_compressed"     ,"if true, export the compressed picture back. In-loop filtering is not applied.",                OFFSET(user_config.show_compressed),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, 1,                         VE           },
+	{ "webp_preprocessing"     ,"preprocessing filter: 0=none, 1=segment-smooth, 2=pseudo-random dithering",                OFFSET(user_config.preprocessing),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, 2,                         VE           },
+	{ "webp_partitions"     ,"log2(number of token partitions) in [0..3]. Default is set to 0 for easier progressive decoding.",                OFFSET(user_config.partitions),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, 3,                         VE           },
+	{ "webp_partition_limit"     ,"quality degradation allowed to fit the 512k limit on prediction modes coding (0: no degradation, 100: maximum possible degradation)",                OFFSET(user_config.partition_limit),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, 100,                         VE           },
+	{ "webp_emulate_jpeg_size"     ,"If true, compression parameters will be remapped to better match the expected output size from JPEG compression. Generally, the output size will be similar but the degradation will be lower.",                OFFSET(user_config.emulate_jpeg_size),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, 1,                         VE           },
+	{ "webp_thread_level"     ,"If non-zero, try and use multi-threaded encoding.",                OFFSET(user_config.thread_level),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, 1,                       VE           },
+	{ "webp_low_memory"     ,"If set, reduce memory usage (but increase CPU use).",                OFFSET(user_config.low_memory),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, 1,                       VE           },
+	{ "webp_near_lossless"     ,"Near lossless encoding [0 = max loss .. 100 = off (default)].",                OFFSET(user_config.near_lossless),  AV_OPT_TYPE_INT, { .i64 =  100 }, 0, 100,                       VE           },
+	{ "webp_exact"     ,"if non-zero, preserve the exact RGB values under transparent area. Otherwise, discard this invisible RGB information for better compression. The default value is 0.",                OFFSET(user_config.exact),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, 1,                       VE           },
+	{ "webp_use_sharp_yuv"     ,"if needed, use sharp (and slow) RGB->YUV conversion",                OFFSET(user_config.use_sharp_yuv),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, 1,                       VE           },
+	{ "webp_qmin"     ,"minimum permissible quality factor",                OFFSET(user_config.qmin),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, INT_MAX,                       VE           },
+	{ "webp_qmax"     ,"maximum permissible quality factor",                OFFSET(user_config.qmax),  AV_OPT_TYPE_INT, { .i64 =  100 }, 0, INT_MAX,                       VE           },
     { NULL },
 };
 
@@ -105,9 +133,7 @@ av_cold int ff_libwebp_encode_init_common(AVCodecContext *avctx)
         if (!ret)
             return AVERROR_UNKNOWN;
 
-        s->config.lossless = s->lossless;
-        s->config.quality  = s->quality;
-        s->config.method   = avctx->compression_level;
+        s->config = s->user_config;
 
         ret = WebPValidateConfig(&s->config);
         if (!ret)

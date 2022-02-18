@@ -1,10 +1,9 @@
 #!/bin/bash
-# pacman --noconfirm -Syu
-# pacman --noconfirm -Su
-# pacman --noconfirm -S autoconf automake make pkg-config git libtool
-# pacman --noconfirm -S mingw-w64-x86_64-nasm mingw-w64-x86_64-gcc
-# pacman --noconfirm -S mingw-w64-x86_64-toolchain
-# pacman --noconfirm -Su yasm  x86_64-w64-mingw32-nm
+# Run this Msys Mingw64 to compile
+pacman --noconfirm -Syu
+pacman --noconfirm -Su
+pacman --noconfirm --needed -S autoconf automake make pkg-config git libtool
+pacman --noconfirm --needed -S mingw-w64-x86_64-toolchain nasm yasm
 
 set -e
 
@@ -56,4 +55,4 @@ popd
 			--disable-libxcb --disable-lzma --disable-sdl2 \
 			--enable-libwebp --enable-libvpx
 make clean
-make -i
+make -j

@@ -46,7 +46,7 @@ make -j
 make install
 popd
 
-./configure --logfile=configure.log --extra-ldflags="-static -lpthread -lm" \
+./configure --logfile=configure.log --extra-ldflags="-static -lpthread" \
 			--pkg-config-flags="--static" \
 			--fatal-warnings --enable-static --disable-shared --disable-ffplay \
 			--disable-doc --disable-htmlpages --disable-manpages --disable-podpages --disable-txtpages \

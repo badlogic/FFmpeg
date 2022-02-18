@@ -42,3 +42,8 @@
 /mapfile
 /tools/python/__pycache__/
 .idea
+libogg-1.3.5
+libvorbis-1.3.7
+libvpx
+libwebp
+configure.log

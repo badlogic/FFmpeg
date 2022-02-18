@@ -1,6 +1,11 @@
-FROM debian:stretch-slim
+FROM ubuntu:xenial
 
-RUN apt-get update && apt-get -y install curl gcc g++ gcc-multilib g++-multilib mingw-w64 lib32z1 git
+ARG DEBIAN_FRONTEND=noninteractive
 
-WORKDIR /code/jni
-CMD echo "ready"
+RUN apt -y update
+RUN apt -y install curl wget git \
+				   autoconf pkg-config \
+			   	   gcc g++ yasm
+
+WORKDIR /code
+CMD ./build-linux.sh

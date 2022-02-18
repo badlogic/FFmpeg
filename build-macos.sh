@@ -9,7 +9,7 @@ rm -f /usr/local/opt/libxcb/lib/*.dylib
 rm -f /usr/local/opt/libxau/lib/*.dylib
 rm -f /usr/local/opt/libxdmcp/lib/*.dylib
 
-./configure --pkg-config-flags=--static --disable-ffplay --disable-ffprobe \
+./configure --pkg-config-flags=--static --disable-ffplay \
 			--disable-doc --disable-htmlpages --disable-manpages --disable-podpages --disable-txtpages \
 			--disable-libxcb --disable-lzma --disable-sdl2 \
 			--enable-libvpx --enable-libwebp

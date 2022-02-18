@@ -30,8 +30,8 @@ popd
 rm -rf libvpx
 git clone https://github.com/webmproject/libvpx
 pushd libvpx
-git checkout 1.11.0
-./configure --disable-shared
+git checkout v1.11.0
+./configure --disable-shared --disable-examples  --disable-tools --disable-unit-tests --disable-decode-perf-tests --disable-encode-perf-tests
 make -j
 make install
 popd
@@ -46,7 +46,8 @@ make -j
 make install
 popd
 
-./configure --logfile=configure.log \
+./configure --logfile=configure.log --extra-ldflags="-static -lpthread -lm" \
+			--pkg-config-flags="--static" \
 			--fatal-warnings --enable-static --disable-shared --disable-ffplay \
 			--disable-doc --disable-htmlpages --disable-manpages --disable-podpages --disable-txtpages \
 			--disable-libxcb --disable-lzma --disable-sdl2 \

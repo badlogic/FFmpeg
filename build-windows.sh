@@ -32,7 +32,7 @@ popd
 rm -rf libvpx
 git clone https://github.com/webmproject/libvpx
 pushd libvpx
-get checkout 1.11.0
+get checkout v1.11.0
 ./configure --prefix=/mingw --target=x86_64-win64-gcc --disable-shared
 make -j
 make install

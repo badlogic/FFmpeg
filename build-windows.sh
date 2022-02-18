@@ -1,8 +1,10 @@
 #!/bin/bash
-pacman -Syu
-pacman -Su
-pacman -S autoconf make pkg-config # libtool
-pacman -S mingw-w64-x86_64-nasm mingw-w64-x86_64-gcc
+# pacman --noconfirm -Syu
+# pacman --noconfirm -Su
+# pacman --noconfirm -S autoconf automake make pkg-config git libtool
+# pacman --noconfirm -S mingw-w64-x86_64-nasm mingw-w64-x86_64-gcc
+# pacman --noconfirm -S mingw-w64-x86_64-toolchain
+# pacman --noconfirm -Su yasm  x86_64-w64-mingw32-nm
 
 set -e
 
@@ -32,7 +34,7 @@ popd
 rm -rf libvpx
 git clone https://github.com/webmproject/libvpx
 pushd libvpx
-get checkout v1.11.0
+git checkout v1.11.0
 ./configure --prefix=/mingw --target=x86_64-win64-gcc --disable-shared
 make -j
 make install
@@ -48,10 +50,10 @@ make -j
 make install
 popd
 
-./configure --logfile=configure.log --prefix=/mingw --extra-cflags="-I/mingw/include" --extra-ldflags="-L/mingw/lib -static -lpthreads" --arch=x86_64 --target-os=mingw64  --cross-prefix=x86_64-w64-mingw32- \
+./configure --logfile=configure.log --pkg-config-flags="--static" --prefix=/mingw --extra-cflags="-I/mingw/include" --extra-ldflags="-L/mingw/lib -static" --arch=x86_64 --target-os=mingw64 \
 			--fatal-warnings --enable-static --disable-shared --disable-ffplay \
 			--disable-doc --disable-htmlpages --disable-manpages --disable-podpages --disable-txtpages \
 			--disable-libxcb --disable-lzma --disable-sdl2 \
 			--enable-libwebp --enable-libvpx
 make clean
-make -j
+make -i

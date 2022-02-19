@@ -47,10 +47,13 @@ make -j
 make install
 popd
 
-./configure --logfile=configure.log --pkg-config-flags="--with-path=/usr/local/lib/pkgconfig --static" --arch=x86_64 --target-os=mingw64 \
+./configure --logfile=configure.log \
+			--pkg-config-flags="--with-path=/usr/local/lib/pkgconfig --static" \
+			--extra-ldflags="-static" \
+			--arch=x86_64 --target-os=mingw64 \
 			--fatal-warnings --enable-static --disable-shared --disable-ffplay \
 			--disable-doc --disable-htmlpages --disable-manpages --disable-podpages --disable-txtpages \
 			--disable-libxcb --disable-lzma --disable-sdl2 \
-			--enable-libwebp --enable-libvpx
+			--enable-libwebp --enable-libvpx --enable-libvorbis
 make clean
 make -j

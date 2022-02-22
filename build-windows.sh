@@ -1,6 +1,6 @@
 #!/bin/bash
 # Run this Msys Mingw64 to compile
-pacman --noconfirm --needed -S autoconf automake make pkg-config git libtool
+pacman --noconfirm --needed -S autoconf automake make pkg-config git libtool zip
 pacman --noconfirm --needed -S mingw-w64-x86_64-toolchain nasm yasm
 
 set -e

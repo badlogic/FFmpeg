@@ -58,10 +58,9 @@ jobs:
       - uses: msys2/setup-msys2@v2
 
       - shell: msys2 {0}
-        run: ./build-windows.sh
-
-      - name: Pack artifacts
-        run: zip natives-windows ffmpeg.exe ffprobe.exe
+        run: |
+          ./build-windows.sh
+          zip natives-windows ffmpeg.exe ffprobe.exe      
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2

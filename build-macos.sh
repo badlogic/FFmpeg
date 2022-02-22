@@ -1,13 +1,13 @@
 #!/bin/sh
 # These are pre-installed on GitHub's macOS virtual environment, need to smoke them.
-brew uninstall libvorbis
-brew uninstall libogg
-brew uninstall webp
-brew uninstall libvpx
-brew uninstall libx11
-brew uninstall libxcb
-brew uninstall libxau
-brew uninstall libxdmcp
+brew uninstall  --ignore-dependencies libvorbis
+brew uninstall  --ignore-dependencies libogg
+brew uninstall  --ignore-dependencies webp
+brew uninstall  --ignore-dependencies libvpx
+brew uninstall  --ignore-dependencies libx11
+brew uninstall  --ignore-dependencies libxcb
+brew uninstall  --ignore-dependencies libxau
+brew uninstall  --ignore-dependencies libxdmcp
 
 brew install automake autoconf libtool pkg-config curl wget yasm
 

@@ -1,6 +1,6 @@
 #!/bin/bash
-apt update
-apt -y install curl wget git \
+sudo apt update
+sudo apt -y install curl wget git \
 			   autoconf make pkg-config libtool \
 			   gcc g++ yasm
 

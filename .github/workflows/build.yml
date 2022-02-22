@@ -49,7 +49,7 @@ jobs:
           path: natives-linux.zip
 
   natives-windows:
-    runs-on: ubuntu-18.04
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
         with:

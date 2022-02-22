@@ -13,7 +13,7 @@ tar xzvf libogg-1.3.5.tar.gz
 pushd libogg-1.3.5
 ./configure --disable-shared
 make
-make install
+sudo make install
 popd
 
 # build libvorbis
@@ -23,7 +23,7 @@ tar xzvf libvorbis-1.3.7.tar.gz
 pushd libvorbis-1.3.7
 ./configure --disable-shared
 make -j
-make install
+sudo make install
 popd
 
 # build libvpx
@@ -33,7 +33,7 @@ pushd libvpx
 git checkout v1.11.0
 ./configure --disable-shared --disable-examples  --disable-tools --disable-unit-tests --disable-decode-perf-tests --disable-encode-perf-tests
 make -j
-make install
+sudo make install
 popd
 
 # build libwebp
@@ -43,7 +43,7 @@ pushd libwebp
 ./autogen.sh
 ./configure --disable-gl --disable-sdl --disable-png --disable-jpeg --disable-tiff --disable-gif --disable-wic --disable-shared
 make -j
-make install
+sudo make install
 popd
 
 ./configure --logfile=configure.log --extra-ldflags="-static -lpthread" \

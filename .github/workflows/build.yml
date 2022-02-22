@@ -1,0 +1,71 @@
+name: Build upload artifacrtts
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+    branches: [ master ]
+  release:
+    types: [ published ]
+
+jobs:
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0          
+
+      - name: Build macOS natives
+        run: |
+          ./build-macos.sh
+
+      - name: Pack artifacts
+        run: |          
+          zip natives-macos ffmpeg ffprobe
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: natives-macos.zip
+          path: natives-macos.zip
+
+  natives-linux:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0          
+
+      - name: Install cross-compilation toolchains
+        run: |
+          ./build-linux.sh
+
+      - name: Pack artifacts
+        run: |          
+          zip natives-linux ffmpeg ffprobe
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: natives-linux.zip
+          path: natives-linux.zip
+
+  natives-windows:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0    
+
+      - name: Pack artifacts
+        run: |
+          find .  -name "*.a" -o -name "*.dll" -o -name "*.dylib" -o -name "*.so" | grep "libs" > native-files-list
+          zip natives-windows ffmpeg.exe ffprobe.exe
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: natives-windows.zip
+          path: natives-windows.zip     

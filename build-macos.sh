@@ -1,19 +1,57 @@
 #!/bin/sh
-brew install autoconf pkg-config libvpx webp libwebm
+brew install automake autoconf libtool pkg-config curl wget yasm
 
 set -e
 
-# Got to delete the following files on macOS otherwise they static libs won't be linked...
-rm -f /usr/local/opt/libvpx/lib/*.dylib
-rm -f /usr/local/opt/webp/lib/*.dylib
-rm -f /usr/local/opt/libx11/lib/*.dylib
-rm -f /usr/local/opt/libxcb/lib/*.dylib
-rm -f /usr/local/opt/libxau/lib/*.dylib
-rm -f /usr/local/opt/libxdmcp/lib/*.dylib
+export CFLAGS="-mmacosx-version-min=10.8"
+export LDFLAGS="-mmacosx-version-min=10.8"
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/share/lib/pkgconfig
+
+# build libogg
+rm -rf libogg-1.3.5
+rm -rf libogg-1.3.5.tar.gz
+wget http://downloads.xiph.org/releases/ogg/libogg-1.3.5.tar.gz
+tar xzvf libogg-1.3.5.tar.gz
+pushd libogg-1.3.5
+./configure --disable-shared
+make
+make install
+popd
+
+# build libvorbis
+rm -rf libvorbis-1.3.7
+rm -rf libvorbis-1.3.7.tar.gz
+wget http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.tar.gz
+tar xzvf libvorbis-1.3.7.tar.gz
+pushd libvorbis-1.3.7
+./configure --disable-shared
+make -j
+make install
+popd
+
+# build libvpx
+rm -rf libvpx
+git clone https://github.com/webmproject/libvpx
+pushd libvpx
+git checkout v1.11.0
+./configure --prefix="/usr/local/share" --disable-shared --disable-examples  --disable-tools --disable-unit-tests --disable-decode-perf-tests --disable-encode-perf-tests --extra-cflags="-mmacosx-version-min=10.8"
+make -j
+make install
+popd
+
+# build libwebp
+rm -rf libwebp
+git clone https://github.com/webmproject/libwebp
+pushd libwebp
+./autogen.sh
+./configure --prefix="/usr/local/share" --disable-gl --disable-sdl --disable-png --disable-jpeg --disable-tiff --disable-gif --disable-wic --disable-shared
+make -j
+make install
+popd
 
 ./configure --fatal-warnings --extra-cflags="-mmacosx-version-min=10.8" --extra-ldflags="-mmacosx-version-min=10.8" --pkg-config-flags=--static --disable-ffplay \
 			--disable-doc --disable-htmlpages --disable-manpages --disable-podpages --disable-txtpages \
 			--disable-libxcb --disable-lzma --disable-sdl2 \
-			--enable-libvpx --enable-libwebp
+			--enable-libvpx --enable-libwebp --enable-libvorbis
 make clean
-make -j 8
+make -j

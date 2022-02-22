@@ -38,7 +38,7 @@ jobs:
         with:
           fetch-depth: 0          
 
-      - name: Install cross-compilation toolchains
+      - name: Build Linux natives
         run: |
           ./build-linux.sh
 
@@ -60,8 +60,7 @@ jobs:
           fetch-depth: 0    
 
       - name: Pack artifacts
-        run: |
-          find .  -name "*.a" -o -name "*.dll" -o -name "*.dylib" -o -name "*.so" | grep "libs" > native-files-list
+        run: |          
           zip natives-windows ffmpeg.exe ffprobe.exe
 
       - name: Upload artifacts

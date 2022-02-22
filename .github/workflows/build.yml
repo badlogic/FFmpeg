@@ -18,16 +18,15 @@ jobs:
           fetch-depth: 0          
 
       - name: Build macOS natives
-        run: ./build-macos.sh
-
-      - name: Pack artifacts
-        run: zip natives-macos ffmpeg ffprobe
+        run: ./build-macos.sh      
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: natives-macos.zip
-          path: natives-macos.zip
+          name: natives-macos
+          path: |
+            ffmpeg
+            ffprobe
 
   natives-linux:
     runs-on: ubuntu-18.04
@@ -37,16 +36,15 @@ jobs:
           fetch-depth: 0          
 
       - name: Build Linux natives
-        run: ./build-linux.sh
-
-      - name: Pack artifacts
-        run: zip natives-linux ffmpeg ffprobe
+        run: ./build-linux.sh     
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: natives-linux.zip
-          path: natives-linux.zip
+          name: natives-linux
+          path: |
+            ffmpeg
+            ffprobe
 
   natives-windows:
     runs-on: windows-latest
@@ -58,12 +56,12 @@ jobs:
       - uses: msys2/setup-msys2@v2
 
       - shell: msys2 {0}
-        run: |
-          ./build-windows.sh
-          zip natives-windows ffmpeg.exe ffprobe.exe      
+        run: ./build-windows.sh          
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: natives-windows.zip
-          path: natives-windows.zip     
+          name: natives-windows
+          path: |
+            ffmpeg.exe
+            ffprobe.exe

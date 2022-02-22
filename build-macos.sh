@@ -4,6 +4,10 @@ brew uninstall libvorbis
 brew uninstall libogg
 brew uninstall webp
 brew uninstall libvpx
+brew uninstall libx11
+brew uninstall libxcb
+brew uninstall libxau
+brew uninstall libxdmcp
 
 brew install automake autoconf libtool pkg-config curl wget yasm
 

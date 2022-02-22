@@ -15,7 +15,7 @@ set -e
 
 export CFLAGS="-mmacosx-version-min=10.8"
 export LDFLAGS="-mmacosx-version-min=10.8"
-export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/share/lib/pkgconfig
+export PKG_CONFIG_PATH=/usr/local/share/lib/pkgconfig:/usr/local/lib/pkgconfig
 
 # build libogg
 rm -rf libogg-1.3.5

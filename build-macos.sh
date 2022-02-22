@@ -1,4 +1,5 @@
 #!/bin/sh
+brew uninstall libvorbis libogg libvpx webp
 brew install automake autoconf libtool pkg-config curl wget yasm
 
 set -e

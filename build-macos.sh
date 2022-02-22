@@ -1,5 +1,10 @@
 #!/bin/sh
-brew uninstall libvorbis libogg libvpx webp
+# These are pre-installed on GitHub's macOS virtual environment, need to smoke them.
+brew uninstall libvorbis
+brew uninstall libogg
+brew uninstall webp
+brew uninstall libvpx
+
 brew install automake autoconf libtool pkg-config curl wget yasm
 
 set -e

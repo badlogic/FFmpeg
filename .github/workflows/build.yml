@@ -18,12 +18,10 @@ jobs:
           fetch-depth: 0          
 
       - name: Build macOS natives
-        run: |
-          ./build-macos.sh
+        run: ./build-macos.sh
 
       - name: Pack artifacts
-        run: |          
-          zip natives-macos ffmpeg ffprobe
+        run: zip natives-macos ffmpeg ffprobe
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
@@ -39,12 +37,10 @@ jobs:
           fetch-depth: 0          
 
       - name: Build Linux natives
-        run: |
-          ./build-linux.sh
+        run: ./build-linux.sh
 
       - name: Pack artifacts
-        run: |          
-          zip natives-linux ffmpeg ffprobe
+        run: zip natives-linux ffmpeg ffprobe
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
@@ -57,11 +53,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0    
+          fetch-depth: 0
+
+      - uses: msys2/setup-msys2@v2
+
+      - name: Build Windows natives
+        shell: msys2 {0}
+          run: ./build-windows.sh
 
       - name: Pack artifacts
-        run: |          
-          zip natives-windows ffmpeg.exe ffprobe.exe
+        run: zip natives-windows ffmpeg.exe ffprobe.exe
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2

@@ -71,7 +71,7 @@ popd
 			--enable-encoder=prores_ks --enable-decoder=prores \
 			--enable-encoder=libwebp_anim \
 			--enable-encoder=libwebp --enable-decoder=webp \
-			--enable-encoder=libvpx_vp9 --enable-decoder=libvpx_vp9 \			
+			--enable-encoder=libvpx_vp9 --enable-decoder=libvpx_vp9 \
 			--enable-encoder=ac3 --enable-decoder=ac3 \
 			--enable-encoder=aac --enable-decoder=aac \
 			--enable-encoder=pcm_s16le --enable-decoder=pcm_s16le \

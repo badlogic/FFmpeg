@@ -1,4 +1,4 @@
-name: Build upload artifacrtts
+name: Build FFmpeg
 
 on:
   push:

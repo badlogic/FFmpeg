@@ -24,6 +24,7 @@
  * WebP encoder using libwebp: common structs and methods.
  */
 
+#include <float.h>
 #include "libavutil/opt.h"
 #include "libwebpenc_common.h"
 
@@ -53,10 +54,10 @@ static const AVOption options[] = {
 	{ "webp_quality"     ,"Quality between 0 and 100", OFFSET(user_config.quality),  AV_OPT_TYPE_FLOAT, { .dbl =  75 }, 0, 100,                         VE           },
 	{ "webp_method"     ,"quality/speed trade-off (0=fast, 6=slower-better)",                OFFSET(user_config.method),  AV_OPT_TYPE_INT, { .i64 =  4 }, 0, 6,                         VE           },
 	{ "webp_target_size"     ,"If non-zero, set the desired target size in bytes.",                OFFSET(user_config.target_size),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, INT_MAX,                         VE           },
-	{ "webp_target_PSNR"     ,"if non-zero, specifies the minimal distortion to try to achieve.", OFFSET(user_config.target_PSNR),  AV_OPT_TYPE_FLOAT, { .dbl =  0 }, 0, INT_MAX,                         VE           },
-	{ "webp_segments"     ,"maximum number of segments to use, in [1..4].",                OFFSET(user_config.segments),  AV_OPT_TYPE_INT, { .i64 =  4 }, 0, 4,                         VE           },
+	{ "webp_target_PSNR"     ,"if non-zero, specifies the minimal distortion to try to achieve.", OFFSET(user_config.target_PSNR),  AV_OPT_TYPE_FLOAT, { .dbl =  0 }, 0, FLT_MAX,                         VE           },
+	{ "webp_segments"     ,"maximum number of segments to use, in [1..4].",                OFFSET(user_config.segments),  AV_OPT_TYPE_INT, { .i64 =  4 }, 1, 4,                         VE           },
 	{ "webp_sns_strength"     ,"Spatial Noise Shaping. 0=off, 100=maximum.",                OFFSET(user_config.sns_strength),  AV_OPT_TYPE_INT, { .i64 =  50 }, 0, 100,                         VE           },
-	{ "webp_filter_strength"     ,"range: [0 = off .. 100 = strongest]",                OFFSET(user_config.filter_strength),  AV_OPT_TYPE_INT, { .i64 =  60 }, 1, 100,                         VE           },
+	{ "webp_filter_strength"     ,"range: [0 = off .. 100 = strongest]",                OFFSET(user_config.filter_strength),  AV_OPT_TYPE_INT, { .i64 =  60 }, 0, 100,                         VE           },
 	{ "webp_filter_sharpness"     ,"range: [0 = off .. 7 = least sharp].",                OFFSET(user_config.filter_sharpness),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, 7,                         VE           },
 	{ "webp_filter_type"     ,"filtering type: 0 = simple, 1 = strong (only used if filter_strength > 0 or autofilter > 0)",                OFFSET(user_config.filter_type),  AV_OPT_TYPE_INT, { .i64 =  1 }, 0, 1,                         VE           },
 	{ "webp_autofilter"     ,"Auto adjust filter's strength [0 = off, 1 = on]",                OFFSET(user_config.autofilter),  AV_OPT_TYPE_INT, { .i64 =  0 }, 0, 1,                         VE           },

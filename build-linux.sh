@@ -74,7 +74,7 @@ popd
 			--enable-muxer=pcm_s16le --enable-demuxer=pcm_s16le \
 			--enable-muxer=image2 \
 			--enable-protocol=file --enable-protocol=tcp \
-			--enable-filter=scale --enable-filter=select \
+			--enable-filter=scale --enable-filter=select --enable-filter=aresample \
 			--enable-libvpx --enable-libwebp --enable-libvorbis
 make clean
 make -j
